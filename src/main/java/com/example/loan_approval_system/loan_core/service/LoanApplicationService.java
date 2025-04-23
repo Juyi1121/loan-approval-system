@@ -1,8 +1,8 @@
-package com.example.loan_approval_system.service;
-import com.example.loan_approval_system.entity.Company;
-import com.example.loan_approval_system.entity.LoanApplication;
-import com.example.loan_approval_system.repository.CompanyRepository;
-import com.example.loan_approval_system.repository.LoanApplicationRepository;
+package com.example.loan_approval_system.loan_core.service;
+import com.example.loan_approval_system.loan_core.entity.Company;
+import com.example.loan_approval_system.loan_core.entity.LoanApplication;
+import com.example.loan_approval_system.loan_core.repository.CompanyRepository;
+import com.example.loan_approval_system.loan_core.repository.LoanApplicationRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

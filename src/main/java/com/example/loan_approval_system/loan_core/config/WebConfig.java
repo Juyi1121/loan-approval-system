@@ -1,6 +1,6 @@
-package com.example.loan_approval_system.config;
+package com.example.loan_approval_system.loan_core.config;
 
-import com.example.loan_approval_system.interceptor.LoginInterceptor;
+import com.example.loan_approval_system.loan_core.interceptor.LoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

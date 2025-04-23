@@ -1,4 +1,4 @@
-package com.example.loan_approval_system.exception;
+package com.example.loan_approval_system.loan_core.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

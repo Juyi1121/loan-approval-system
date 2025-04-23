@@ -1,4 +1,4 @@
-package com.example.loan_approval_system.dto;
+package com.example.loan_approval_system.loan_core.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

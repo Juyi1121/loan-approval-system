@@ -1,4 +1,4 @@
-package com.example.loan_approval_system.config;
+package com.example.loan_approval_system.loan_core.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

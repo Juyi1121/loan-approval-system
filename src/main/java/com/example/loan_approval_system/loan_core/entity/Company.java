@@ -1,4 +1,4 @@
-package com.example.loan_approval_system.entity;
+package com.example.loan_approval_system.loan_core.entity;
 
 
     import jakarta.persistence.*;

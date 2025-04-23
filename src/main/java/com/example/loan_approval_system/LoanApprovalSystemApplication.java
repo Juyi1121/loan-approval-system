@@ -1,9 +1,9 @@
 package com.example.loan_approval_system;
 
 //test
-import com.example.loan_approval_system.entity.Company;
-import com.example.loan_approval_system.service.LoanApplicationService;
-import com.example.loan_approval_system.repository.CompanyRepository;
+import com.example.loan_approval_system.loan_core.entity.Company;
+import com.example.loan_approval_system.loan_core.service.LoanApplicationService;
+import com.example.loan_approval_system.loan_core.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 //

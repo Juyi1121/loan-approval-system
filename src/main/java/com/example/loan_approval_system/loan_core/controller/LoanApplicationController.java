@@ -1,8 +1,8 @@
-package com.example.loan_approval_system.controller;
+package com.example.loan_approval_system.loan_core.controller;
 
-import com.example.loan_approval_system.dto.LoanRequestDTO;
-import com.example.loan_approval_system.entity.LoanApplication;
-import com.example.loan_approval_system.service.LoanApplicationService;
+import com.example.loan_approval_system.loan_core.dto.LoanRequestDTO;
+import com.example.loan_approval_system.loan_core.entity.LoanApplication;
+import com.example.loan_approval_system.loan_core.service.LoanApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

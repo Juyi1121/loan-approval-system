@@ -1,7 +1,7 @@
-package com.example.loan_approval_system.controller;
+package com.example.loan_approval_system.loan_core.controller;
 
-import com.example.loan_approval_system.entity.Company;
-import com.example.loan_approval_system.service.CompanyService;
+import com.example.loan_approval_system.loan_core.entity.Company;
+import com.example.loan_approval_system.loan_core.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,4 +1,4 @@
-package com.example.loan_approval_system.dto;
+package com.example.loan_approval_system.loan_core.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

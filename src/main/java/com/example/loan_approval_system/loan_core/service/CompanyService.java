@@ -1,10 +1,10 @@
-package com.example.loan_approval_system.service;
+package com.example.loan_approval_system.loan_core.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.loan_approval_system.entity.Company;
-import com.example.loan_approval_system.repository.CompanyRepository;
+import com.example.loan_approval_system.loan_core.entity.Company;
+import com.example.loan_approval_system.loan_core.repository.CompanyRepository;
 
 @Service
 public class CompanyService {

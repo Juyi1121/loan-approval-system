@@ -1,4 +1,4 @@
-package com.example.loan_approval_system.interceptor;
+package com.example.loan_approval_system.loan_core.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
