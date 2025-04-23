@@ -108,6 +108,17 @@
     <version>6.0.0</version>
     <scope>provided</scope>
 </dependency>
+<!--Bootstrap 5.3.5 與 Icons-->
+<dependency>
+    <groupId>org.webjars.npm</groupId>
+    <artifactId>bootstrap</artifactId>
+    <version>5.3.5</version>
+</dependency>
+<dependency>
+    <groupId>org.webjars.npm</groupId>
+    <artifactId>bootstrap-icons</artifactId>
+    <version>1.11.3</version>
+</dependency>
 
 </dependencies>
 

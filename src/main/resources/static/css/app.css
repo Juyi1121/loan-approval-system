@@ -1,0 +1,6 @@
+:root {
+    --bs-primary: #0066cc;
+    --bs-secondary: #6c757d;
+    --bs-font-sans-serif: 'Noto Sans TC', 'Segoe UI', system-ui, sans-serif;
+}
+body { font-family: var(--bs-font-sans-serif); }

@@ -1,28 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Loan Application</title>
-</head>
-<body>
-
-<h1>Apply for a Loan</h1>
-
-<form th:action="@{/loan/apply}" th:object="${loanRequestDTO}" method="post">
-
-    <p>
-        Company ID:
-        <input type="text" th:field="*{companyId}" id="companyId" placeholder="Enter Company ID" />
-        <span th:if="${#fields.hasErrors('companyId')}" th:errors="*{companyId}" style="color:red"></span>
-    </p>
-
-    <p>
-        Loan Amount:
-        <input type="number" th:field="*{loanAmount}" id="loanAmount" placeholder="Enter Loan Amount" />
-        <span th:if="${#fields.hasErrors('loanAmount')}" th:errors="*{loanAmount}" style="color:red"></span>
-    </p>
-
-    <button type="submit">Submit Application</button>
-</form>
-
-</body>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: layout">
+<section>
+  <h1 class="mb-4"><i class="bi bi-cash-stack me-2"></i>企業貸款申請</h1>
+  <form th:action="@{/loan/apply}" method="post" class="row g-3 needs-validation" novalidate>
+      <div class="col-md-4">
+          <label class="form-label">公司</label>
+          <select name="companyId" class="form-select" th:each="c : ${companies}"
+                  th:value="${c.id}" th:text="${c.companyName}" required>
+          </select>
+      </div>
+      <div class="col-md-4">
+          <label class="form-label">申請金額 (NT$)</label>
+          <input type="number" step="1" name="amount" class="form-control" required>
+      </div>
+      <div class="col-md-4">
+          <label class="form-label">貸款期限 (月)</label>
+          <input type="number" step="1" name="term" class="form-control" required>
+      </div>
+      <div class="col-12 text-end">
+          <button class="btn btn-primary" type="submit">送出申請</button>
+      </div>
+  </form>
+</section>
 </html>

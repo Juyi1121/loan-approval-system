@@ -1,11 +1,29 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Loan Result</title>
-</head>
-<body>
-<h2 th:text="${message}">Loan result.</h2>
-<p><a th:href="@{/}">Back to Home</a></p>
-</body>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: layout">
+<section>
+  <h1 class="mb-4"><i class="bi bi-card-checklist me-2"></i>審核結果</h1>
+
+  <div class="alert alert-success d-flex align-items-center" role="alert"
+       th:if="${approved}">
+      <i class="bi bi-check-circle-fill me-2"></i>
+      恭喜！本次貸款已核准，詳情如下：
+  </div>
+  <div class="alert alert-danger d-flex align-items-center" role="alert"
+       th:unless="${approved}">
+      <i class="bi bi-x-circle-fill me-2"></i>
+      很抱歉，貸款未通過，原因：<span th:text="${reason}" class="ms-1"></span>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title"><i class="bi bi-hash me-2"></i>交易哈希 (txHash)</h5>
+      <p class="card-text text-break" th:text="${txHash}">0x123…abc</p>
+      <a class="btn btn-outline-primary"
+         th:href="'https://etherscan.io/tx/' + ${txHash}"
+         target="_blank" rel="noopener">
+         前往區塊瀏覽器 <i class="bi bi-box-arrow-up-right ms-1"></i>
+      </a>
+    </div>
+  </div>
+</section>
 </html>
