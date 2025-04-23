@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Company</title>
+</head>
+<body>
+<h1>Add New Company</h1>
+
+<form th:action="@{/company/save}" method="post">
+    <p>Company Name: <input type="text" name="companyName" /></p>
+    <p>Credit Score: <input type="number" name="creditScore" /></p>
+    <p>Debt Ratio: <input type="number" step="0.01" name="debtRatio" /></p>
+    <p>Revenue: <input type="number" step="0.01" name="revenue" /></p>
+    <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>
