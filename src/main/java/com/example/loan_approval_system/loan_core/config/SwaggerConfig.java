@@ -1,19 +1,25 @@
 package com.example.loan_approval_system.loan_core.config;
-
-import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.info.Info;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.context.annotation.*;
 
 @Configuration
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI customOpenAPI() {
-        return new OpenAPI()
-            .info(new Info()
-                .title("Loan Approval System API")
-                .version("1.0")
-                .description("企業貸款審核系統 API 文件"));
+    public OpenAPI openApi() {
+        return new OpenAPI().info(new Info()
+                .title("Loan-Approval API")
+                .description("申請 / 審核 / 管理 API")
+                .version("v1.0"));
+    }
+
+    @Bean
+    public GroupedOpenApi loanApi() {
+        return GroupedOpenApi.builder()
+                .group("loan")
+                .pathsToMatch("/loan/**")
+                .build();
     }
 }

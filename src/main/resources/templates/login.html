@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
+  <meta charset="UTF-8">
+  <title>登入</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<h2>Login</h2>
-<form th:action="@{/login}" method="post">
-    <div>
-        Username: <input type="text" name="username">
-    </div>
-    <div>
-        Password: <input type="password" name="password">
-    </div>
-    <button type="submit">Sign in</button>
-</form>
+<body class="d-flex justify-content-center align-items-center vh-100 bg-light">
+
+  <form th:action="@{/login}" method="post"
+        class="border p-4 rounded shadow bg-white" style="min-width:320px;">
+      <h3 class="mb-4 text-center">使用者登入</h3>
+
+      <div class="mb-3">
+          <label class="form-label">帳號</label>
+          <input class="form-control" name="username" required>
+      </div>
+
+      <div class="mb-3">
+          <label class="form-label">密碼</label>
+          <input type="password" class="form-control" name="password" required>
+      </div>
+
+      <button class="btn btn-primary w-100" type="submit">Sign in</button>
+
+      <p class="text-danger mt-3" th:if="${param.error}">帳密錯誤！</p>
+      <p class="text-success mt-3" th:if="${param.logout}">已成功登出！</p>
+  </form>
+
 </body>
 </html>

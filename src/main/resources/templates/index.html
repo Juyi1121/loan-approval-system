@@ -1,15 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-</head>
-<body>
-<h1>Welcome to the Loan Application System</h1>
-<ul>
-    <li><a th:href="@{/loan/apply}">Apply for a loan</a></li>
-    <li><a th:href="@{/company/add}">Add a company</a></li>
-    <li><a th:href="@{/logout}">Log out</a></li>
-</ul>
-</body>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout :: layout}">
+<section class="text-center">
+  <h2 class="mb-3">歡迎來到 Loan-Approval System</h2>
+  <p>請 <a th:href="@{/login}">登入</a> 以繼續。</p>
+</section>
 </html>

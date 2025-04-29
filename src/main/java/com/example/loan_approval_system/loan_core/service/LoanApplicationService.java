@@ -1,53 +1,71 @@
 package com.example.loan_approval_system.loan_core.service;
-import com.example.loan_approval_system.loan_core.entity.Company;
-import com.example.loan_approval_system.loan_core.entity.LoanApplication;
-import com.example.loan_approval_system.loan_core.repository.CompanyRepository;
-import com.example.loan_approval_system.loan_core.repository.LoanApplicationRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.loan_approval_system.loan_core.entity.*;
+import com.example.loan_approval_system.loan_core.repository.*;
 
 @Service
 public class LoanApplicationService {
 
-    @Autowired
-    private LoanApplicationRepository loanRepo;
+    private final LoanApplicationRepository loanRepo;
+    private final CompanyRepository companyRepo;
 
-    @Autowired
-    private CompanyRepository companyRepo;
-
-    // 建立貸款申請並自動評估風險
-    @Transactional
-    public LoanApplication applyForLoan(Long companyId, double loanAmount) {
-        Company company = companyRepo.findById(companyId)
-                .orElseThrow(() -> new RuntimeException("公司不存在"));
-
-        String riskLevel = evaluateRisk(company);
-
-        LoanApplication application = new LoanApplication();
-        application.setCompanyId(companyId);
-        application.setLoanAmount(loanAmount);
-        application.setApplicationDate(LocalDateTime.now());
-
-        // 將風險結果當作狀態先儲存（後續可以拓展成多階段審核）
-        application.setStatus(riskLevel); // High Risk / Medium Risk / Low Risk
-
-        return loanRepo.save(application);
+    public LoanApplicationService(LoanApplicationRepository loanRepo,
+                                  CompanyRepository companyRepo) {
+        this.loanRepo = loanRepo;
+        this.companyRepo = companyRepo;
     }
 
-    // 風險評估邏輯
-    private String evaluateRisk(Company company) {
-        double debtRatio = company.getDebtRatio();
-        double creditScore = company.getCreditScore();
+    /* ========= 申請貸款 ========= */
+    @Transactional
+    public LoanApplication applyForLoan(Long companyId, double loanAmount) {
 
-        if (debtRatio > 0.6 || creditScore < 600) {
-            return "High Risk";
-        } else if (debtRatio > 0.3 || creditScore <= 700) {
-            return "Medium Risk";
-        } else {
-            return "Low Risk";
-        }
+        Company company = companyRepo.findById(companyId)
+                .orElseThrow(() -> new IllegalArgumentException("公司不存在"));
+
+        LoanApplication app = new LoanApplication();
+        app.setCompany(company);
+        app.setLoanAmount(loanAmount);
+        app.setApplicationDate(LocalDateTime.now());
+        app.setRiskStatus(evaluateRisk(company));        // Low / Medium / High
+        app.setStatus(LoanStatus.PENDING);
+
+        return loanRepo.save(app);
+    }
+
+    /* ========= 查詢待審核 ========= */
+    public List<LoanApplication> findPending() {
+        return loanRepo.findByStatus(LoanStatus.PENDING);
+    }
+
+    /* ========= 核准 ========= */
+    @Transactional
+    public void approve(Long id) {
+        LoanApplication app = loanRepo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Loan not found"));
+        app.setStatus(LoanStatus.APPROVED);
+    }
+
+    /* ========= 拒絕 ========= */
+    @Transactional
+    public void reject(Long id) {
+        LoanApplication app = loanRepo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Loan not found"));
+        app.setStatus(LoanStatus.REJECTED);
+    }
+
+    /* ========= 風險評估 ========= */
+    private String evaluateRisk(Company c) {
+        double dr = c.getDebtRatio();
+        double cs = c.getCreditScore();
+
+        if (dr > 0.6 || cs < 600)         return "High Risk";
+        if (dr > 0.3 || cs <= 700)        return "Medium Risk";
+        return "Low Risk";
     }
 }

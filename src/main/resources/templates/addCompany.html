@@ -1,29 +1,34 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: layout">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout :: layout}">
 <section>
   <h1 class="mb-4"><i class="bi bi-building-add me-2"></i>新增公司</h1>
+
   <form th:action="@{/company/save}" method="post" class="row g-3 needs-validation" novalidate>
-      <div class="col-md-6">
-          <label class="form-label">公司名稱</label>
-          <input type="text" name="companyName" class="form-control" required>
-          <div class="invalid-feedback">請輸入公司名稱</div>
-      </div>
-      <div class="col-md-3">
-          <label class="form-label">信用評分</label>
-          <input type="number" step="0.01" name="creditScore" class="form-control" required>
-      </div>
-      <div class="col-md-3">
-          <label class="form-label">負債比率</label>
-          <input type="number" step="0.01" name="debtRatio" class="form-control" required>
-      </div>
-      <div class="col-md-6">
-          <label class="form-label">年營收 (NT$)</label>
-          <input type="number" step="1" name="revenue" class="form-control" required>
-      </div>
-      <div class="col-12 text-end">
-          <button class="btn btn-outline-secondary me-2" type="reset">重填</button>
-          <button class="btn btn-primary" type="submit">儲存</button>
-      </div>
+    <div class="col-md-6">
+      <label class="form-label">公司名稱</label>
+      <input type="text" name="companyName" class="form-control" required>
+      <div class="invalid-feedback">請輸入公司名稱</div>
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">信用評分</label>
+      <input type="number" step="0.01" name="creditScore" class="form-control" required>
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">負債比率</label>
+      <input type="number" step="0.01" name="debtRatio" class="form-control" required>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">年營收 (NT$)</label>
+      <input type="number" step="1" name="revenue" class="form-control" required>
+    </div>
+
+    <div class="col-12 text-end">
+      <button class="btn btn-outline-secondary me-2" type="reset">重填</button>
+      <button class="btn btn-primary" type="submit">儲存</button>
+    </div>
   </form>
 </section>
 </html>

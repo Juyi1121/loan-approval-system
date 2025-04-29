@@ -1,20 +1,45 @@
 package com.example.loan_approval_system.loan_core.service;
 
+import com.example.loan_approval_system.loan_core.entity.Company;
+import com.example.loan_approval_system.loan_core.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.loan_approval_system.loan_core.entity.Company;
-import com.example.loan_approval_system.loan_core.repository.CompanyRepository;
+import java.util.Optional;
 
 @Service
 public class CompanyService {
 
-    @Autowired
-    private CompanyRepository companyRepository;  // 假設使用 JPA Repository 來處理資料庫操作
+    private final CompanyRepository companyRepository;
 
-    public Company saveCompany(String companyName, double creditScore, double debtRatio, double revenue) {
-        Company company = new Company(companyName, creditScore, debtRatio, revenue);
-        return companyRepository.save(company);  // 保存公司並返回保存後的對象
+    @Autowired
+    public CompanyService(CompanyRepository companyRepository) {
+        this.companyRepository = companyRepository;
+    }
+
+    /**
+     * 創建新公司
+     * @param company 資料傳輸物件
+     * @return 新儲存的公司實體
+     */
+    public Company save(Company company) {
+        return companyRepository.save(company);
+    }
+
+    /**
+     * 根據公司名稱查找公司
+     * @param companyName 公司名稱
+     * @return Optional<Company>
+     */
+    public Optional<Company> findByCompanyName(String companyName) {
+        return companyRepository.findByCompanyName(companyName);
+    }
+
+    /**
+     * 查找所有公司
+     * @return 所有公司
+     */
+    public Iterable<Company> findAll() {
+        return companyRepository.findAll();
     }
 }
-
