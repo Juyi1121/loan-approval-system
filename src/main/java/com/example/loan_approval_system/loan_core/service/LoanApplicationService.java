@@ -23,7 +23,7 @@ public class LoanApplicationService {
 
     /* ========= 申請貸款 ========= */
     @Transactional
-    public LoanApplication applyForLoan(Long companyId, double loanAmount) {
+    public LoanApplication applyForLoan(Long companyId, double loanAmount, int term) {
 
         Company company = companyRepo.findById(companyId)
                 .orElseThrow(() -> new IllegalArgumentException("公司不存在"));
@@ -31,6 +31,7 @@ public class LoanApplicationService {
         LoanApplication app = new LoanApplication();
         app.setCompany(company);
         app.setLoanAmount(loanAmount);
+        app.setTerm(term);             // ← 新增
         app.setApplicationDate(LocalDateTime.now());
         app.setRiskStatus(evaluateRisk(company));        // Low / Medium / High
         app.setStatus(LoanStatus.PENDING);
@@ -68,4 +69,11 @@ public class LoanApplicationService {
         if (dr > 0.3 || cs <= 700)        return "Medium Risk";
         return "Low Risk";
     }
+    /* ========= 極簡包裝，給 Controller 用 ========= */
+@Transactional
+public void applySimple(Long companyId, java.math.BigDecimal amount, Integer term) {
+  
+    applyForLoan(companyId, amount.doubleValue(),term);
+}
+
 }

@@ -38,7 +38,7 @@ public class LoanApprovalSystemApplication implements CommandLineRunner{
     
             Company saved = companyRepo.save(c);
     
-            var result = loanService.applyForLoan(saved.getId(), 500000);
+            var result = loanService.applyForLoan(saved.getId(), 500000,12);
             System.out.println("申請成功，風險評估為：" + result.getStatus());
         } else {
             System.out.println("公司 測試公司A 已存在，略過新增！");

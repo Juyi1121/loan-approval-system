@@ -1,9 +1,10 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{/layout :: layout}">
+<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org"
+th:replace="~{layout}">
+<title>申請人員 Dashboard</title>
+<body>
+    <section th:fragment="section"><div>
+        <h3>Hi <b th:text="${name}"></b></h3>
+        <a th:href="@{/loan/apply}">申請貸款</a>
+    </div></section>
 
-<section>
-  <h3 class="mb-3">Hi，<b th:text="${name}">Applicant</b></h3>
-  <p><a class="btn btn-primary" th:href="@{/loan/apply}">申請貸款</a></p>
-</section>
-</html>
+</body></html>

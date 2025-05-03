@@ -1,17 +1,20 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout :: layout}">
-<section>
-  <h1 class="mb-4"><i class="bi bi-check-circle-fill text-success me-2"></i>
-      公司 <span th:text="${company.companyName}">ABC</span> 建立成功！
-  </h1>
+<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org"
+th:replace="~{layout}">
+<section th:fragment="section">
+<head>
+    <meta charset="UTF-8">
+    <title>Company Saved</title>
+</head>
+<body>
+<h2 th:text="'公司 '+${company.companyName}+' 建立成功！'">Company saved!</h2>
 
-  <table class="table table-bordered w-auto">
+<table border ="1">
     <tr><th>ID</th><td th:text="${company.id}">1</td></tr>
-    <tr><th>Credit&nbsp;Score</th><td th:text="${company.creditScore}">750</td></tr>
-    <tr><th>Debt&nbsp;Ratio</th><td th:text="${company.debtRatio}">0.3</td></tr>
-    <tr><th>Revenue</th><td th:text="${company.revenue}">1 000 000</td></tr>
-  </table>
+    <tr><th>Credit Score</th><td th:text="${company.creditScore}">750</td></tr>
+    <tr><th>Debt Ratio</th><td th:text="${company.debtRatio}">0.3</td></tr>
+    <tr><th>Revenue</th><td th:text="${company.revenue}">1 000 000</td></tr>
+</table>
 
-  <p class="mt-3"><a class="btn btn-link" th:href="@{/}">返回首頁</a></p>
-</section>
+<p><a th:href="@{/}">返回首頁</a></p>
+</body>
 </html>

@@ -14,7 +14,7 @@ public class LoanApplication {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
-
+    private Integer term;  
     private Double loanAmount;
     private LocalDateTime applicationDate;
 
@@ -28,6 +28,9 @@ public class LoanApplication {
 
     public Company getCompany() { return company; }
     public void setCompany(Company company) { this.company = company; }
+    
+    public Integer getTerm() { return term; }
+    public void setTerm(Integer term) { this.term = term; }
 
     public Double getLoanAmount() { return loanAmount; }
     public void setLoanAmount(Double loanAmount) { this.loanAmount = loanAmount; }

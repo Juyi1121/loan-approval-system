@@ -1,29 +1,30 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout :: layout}">
-<section>
+<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org"
+th:replace="~{layout}">
+<section th:fragment="section">
   <h1 class="mb-4"><i class="bi bi-cash-stack me-2"></i>企業貸款申請</h1>
-
   <form th:action="@{/loan/apply}" method="post" class="row g-3 needs-validation" novalidate>
-    <div class="col-md-4">
-      <label class="form-label">公司</label>
-      <select name="companyId" class="form-select" required>
-        <option th:each="c : ${companies}" th:value="${c.id}" th:text="${c.companyName}">Company</option>
-      </select>
-    </div>
-
-    <div class="col-md-4">
-      <label class="form-label">申請金額 (NT$)</label>
-      <input type="number" step="1" name="amount" class="form-control" required>
-    </div>
-
-    <div class="col-md-4">
-      <label class="form-label">貸款期限 (月)</label>
-      <input type="number" step="1" name="term" class="form-control" required>
-    </div>
-
-    <div class="col-12 text-end">
-      <button class="btn btn-primary" type="submit">送出申請</button>
-    </div>
+      <div class="col-md-4">
+          <label class="form-label">公司</label>
+          <select name="companyId" class="form-select" required>
+            <option value="" hidden selected>─ 請選擇 ─</option>
+            <option th:each="c : ${companies}"
+                    th:value="${c.id}"
+                    th:text="${c.companyName}">
+            </option>
+          </select>
+          
+      </div>
+      <div class="col-md-4">
+          <label class="form-label">申請金額 (NT$)</label>
+          <input type="number" step="1" name="amount" class="form-control" required>
+      </div>
+      <div class="col-md-4">
+          <label class="form-label">貸款期限 (月)</label>
+          <input type="number" step="1" name="term" class="form-control" required>
+      </div>
+      <div class="col-12 text-end">
+          <button class="btn btn-primary" type="submit">送出申請</button>
+      </div>
   </form>
 </section>
 </html>
