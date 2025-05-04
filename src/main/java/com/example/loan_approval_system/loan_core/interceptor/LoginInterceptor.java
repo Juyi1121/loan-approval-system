@@ -10,7 +10,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        // 這裡可以放登入驗證邏輯
+        // 這裡放登入驗證邏輯
         // 暫時全部放行
         return true;
     }

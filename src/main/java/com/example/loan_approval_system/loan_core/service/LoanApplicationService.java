@@ -69,7 +69,7 @@ public class LoanApplicationService {
         if (dr > 0.3 || cs <= 700)        return "Medium Risk";
         return "Low Risk";
     }
-    /* ========= 極簡包裝，給 Controller 用 ========= */
+    /* ========= 給 Controller 用 ========= */
 @Transactional
 public void applySimple(Long companyId, java.math.BigDecimal amount, Integer term) {
   
