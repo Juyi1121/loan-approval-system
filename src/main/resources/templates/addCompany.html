@@ -1,7 +1,10 @@
-<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org"
-th:replace="~{layout}">
-<section th:fragment="section">
-  <h1 class="mb-4"><i class="bi bi-building-add me-2"></i>新增公司</h1>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: layout(~{::title},~{::section})">
+
+<title>新增公司</title>
+<section>
+    <h1 class="mb-4"><i class="bi bi-building-add me-2"></i>新增公司</h1>
   <form th:action="@{/company/save}" method="post" class="row g-3 needs-validation" novalidate>
       <div class="col-md-6">
           <label class="form-label">公司名稱</label>

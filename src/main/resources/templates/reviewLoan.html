@@ -1,40 +1,40 @@
-<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org"
-th:replace="~{layout}">
-<section th:fragment="section">
-  <h1 class="mb-4"><i class="bi bi-list-check me-2"></i>待審核貸款清單</h1>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: layout(~{::title}, ~{::section})">
 
-  <div th:if="${#lists.isEmpty(loans)}">
-      <p class="text-muted">目前沒有待審核的申請。</p>
+<title th:text="${pageTitle ?: '貸款列表'}">貸款列表</title>
+
+<section>
+  <h1 class="mb-4" th:text="${heading ?: '貸款列表'}">貸款列表</h1>
+
+  <div th:if="${#lists.isEmpty(loans)}" class="text-muted">
+      沒有符合條件的申請。
   </div>
 
   <table class="table table-bordered align-middle" th:if="${!#lists.isEmpty(loans)}">
-      <thead class="table-light">
-        <tr>
-          <th>ID</th>
-          <th>公司名稱</th>
-          <th>申請金額 (NT$)</th>
-          <th>期限 (月)</th>
-          <th>狀態</th>
-          <th class="text-center" style="width:160px;">操作</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="l : ${loans}">
-          <td th:text="${l.id}">1</td>
-          <td th:text="${l.company.companyName}">測試公司</td>
-          <td th:text="${#numbers.formatInteger(l.loanAmount, 0, 'COMMA')}">1,000,000</td>
-          <td th:text="${l.term}">12</td>
-          <td th:text="${l.status}">PENDING</td>
-          <td class="text-center">
-            <form th:action="@{|/loan/${l.id}/approve|}" method="post" class="d-inline">
-                <button class="btn btn-success btn-sm" type="submit">核准</button>
-            </form>
-            <form th:action="@{|/loan/${l.id}/reject|}" method="post" class="d-inline ms-1">
-                <button class="btn btn-danger btn-sm" type="submit">拒絕</button>
-            </form>
-          </td>
-        </tr>
-      </tbody>
+    <thead class="table-light">
+      <tr>
+        <th>ID</th><th>公司</th><th>金額 (NT$)</th><th>期限 (月)</th><th>狀態</th>
+        <th class="text-center" style="width:160px;">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="l : ${loans}">
+        <td th:text="${l.id}">1</td>
+        <td th:text="${l.company.companyName}">ABC</td>
+        <td th:text="${#numbers.formatInteger(l.loanAmount,0,'COMMA')}">100 000</td>
+        <td th:text="${l.term}">12</td>
+        <td th:text="${l.status}">PENDING</td>
+        <td class="text-center">
+          <form th:action="@{|/loan/${l.id}/approve|}" method="post" class="d-inline">
+              <button class="btn btn-success btn-sm" type="submit">核准</button>
+          </form>
+          <form th:action="@{|/loan/${l.id}/reject|}" method="post" class="d-inline ms-1">
+              <button class="btn btn-danger btn-sm" type="submit">拒絕</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
   </table>
 </section>
 </html>

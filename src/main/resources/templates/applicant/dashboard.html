@@ -1,10 +1,14 @@
-<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org"
-th:replace="~{layout}">
-<title>申請人員 Dashboard</title>
-<body>
-    <section th:fragment="section"><div>
-        <h3>Hi <b th:text="${name}"></b></h3>
-        <a th:href="@{/loan/apply}">申請貸款</a>
-    </div></section>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: layout(~{::title},~{::section})">
 
-</body></html>
+<title>申請人員 Dashboard</title>
+
+<section>
+  <h3>Hi <b th:text="${name}">Applicant</b></h3>
+  <ul class="list-unstyled">
+    <li><a th:href="@{/loan/apply}">申請貸款</a></li>
+    <li><a th:href="@{/loan/my}"   >我的申請紀錄</a></li>
+  </ul>
+</section>
+</html>

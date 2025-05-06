@@ -1,11 +1,13 @@
 package com.example.loan_approval_system.loan_core.controller;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.loan_approval_system.loan_core.entity.LoanStatus;
 import com.example.loan_approval_system.loan_core.repository.CompanyRepository;
 import com.example.loan_approval_system.loan_core.service.LoanApplicationService;
 
@@ -21,49 +23,56 @@ public class LoanController {
         this.companyRepo = companyRepo;
     }
 
-    /* ---------- 申請人 (Applicant) ---------- */
-
-    /** 顯示申請表單 (GET /loan/apply) */
+    /* ---------- 申請表單 ---------- */
     @GetMapping("/apply")
-    public String showApplyForm(Model model) {
-        model.addAttribute("companies", companyRepo.findAll());  // ★ 關鍵一行
-        return "applyLoan";
+    public String showApplyForm(Model m) {
+        m.addAttribute("companies", companyRepo.findAll());
+        return "applyloan";
     }
 
-
-    /** 處理送出 (POST /loan/apply) */
     @PostMapping("/apply")
     public String processApply(@RequestParam Long companyId,
                                @RequestParam BigDecimal amount,
-                               @RequestParam Integer term) {
+                               @RequestParam Integer term,
+                               Principal principal) {
 
-        // 最陽春的 Service 呼叫：你可以先做一個 applySimple()
-        loanService.applySimple(companyId, amount, term);
-
-        // PRG (Post/Redirect/Get) 避免重複提交
-        return "redirect:/loan/apply?success";
+        loanService.applyForLoan(companyId,
+                                 amount.doubleValue(),
+                                 term,
+                                 principal.getName());
+        return "redirect:/loan/my?success";
     }
 
-    /* ---------- 審核員 (Reviewer) ---------- */
-
-    /** 待審核清單 (GET /loan/pending) */
+    /* ---------- Reviewer ---------- */
     @GetMapping("/pending")
-    public String pending(Model model) {
-        model.addAttribute("loans", loanService.findPending());
-        return "reviewLoan";               // templates/reviewLoan.html
+    public String pending(Model m) {
+        m.addAttribute("loans", loanService.findByStatus(LoanStatus.PENDING));
+        return "reviewLoan";
     }
 
-    /** 核准 (POST /loan/{id}/approve) */
+    @GetMapping("/all")
+    public String all(Model m) {
+        m.addAttribute("loans", loanService.findAll());
+        m.addAttribute("pageTitle", "所有審核紀錄");   //
+        return "reviewLoan";
+    }
+
     @PostMapping("/{id}/approve")
     public String approve(@PathVariable Long id) {
         loanService.approve(id);
         return "redirect:/loan/pending";
     }
 
-    /** 拒絕 (POST /loan/{id}/reject) */
     @PostMapping("/{id}/reject")
     public String reject(@PathVariable Long id) {
         loanService.reject(id);
         return "redirect:/loan/pending";
+    }
+
+    /* ---------- Applicant ---------- */
+    @GetMapping("/my")
+    public String myLoans(Model m, Principal principal) {
+        m.addAttribute("loans", loanService.findByApplicant(principal.getName()));
+        return "myLoan";
     }
 }

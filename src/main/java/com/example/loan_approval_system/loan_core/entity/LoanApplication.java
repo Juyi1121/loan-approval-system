@@ -10,25 +10,32 @@ public class LoanApplication {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /* 與公司多對一關聯 */
+    /* 多對一 – 公司 */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
-    private Integer term;  
-    private Double loanAmount;
+
+    /* 申請人帳號（email 或 username）*/
+    private String applicant;
+
+    private Integer term;             // 月份
+    private Double  loanAmount;
     private LocalDateTime applicationDate;
 
     @Enumerated(EnumType.STRING)
-    private LoanStatus status = LoanStatus.PENDING;   // 預設待審核
+    private LoanStatus status = LoanStatus.PENDING;
 
-    private String riskStatus;  // Low / Medium / High
+    private String riskStatus;        // Low / Medium / High
 
-    /* ===== Getter / Setter ===== */
+    /* ==== Getter / Setter ==== */
     public Long getId() { return id; }
 
     public Company getCompany() { return company; }
     public void setCompany(Company company) { this.company = company; }
-    
+
+    public String getApplicant() { return applicant; }
+    public void setApplicant(String applicant) { this.applicant = applicant; }
+
     public Integer getTerm() { return term; }
     public void setTerm(Integer term) { this.term = term; }
 

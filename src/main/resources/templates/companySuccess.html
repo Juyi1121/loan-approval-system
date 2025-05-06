@@ -1,20 +1,19 @@
-<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org"
-th:replace="~{layout}">
-<section th:fragment="section">
-<head>
-    <meta charset="UTF-8">
-    <title>Company Saved</title>
-</head>
-<body>
-<h2 th:text="'公司 '+${company.companyName}+' 建立成功！'">Company saved!</h2>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: layout(~{::title},~{::section})">
 
-<table border ="1">
+<title>公司建立成功</title>
+
+<section>
+  <h2 th:text="'公司『'+${company.companyName}+'』建立成功！'">Company saved!</h2>
+
+  <table class="table table-bordered w-auto">
     <tr><th>ID</th><td th:text="${company.id}">1</td></tr>
-    <tr><th>Credit Score</th><td th:text="${company.creditScore}">750</td></tr>
-    <tr><th>Debt Ratio</th><td th:text="${company.debtRatio}">0.3</td></tr>
-    <tr><th>Revenue</th><td th:text="${company.revenue}">1 000 000</td></tr>
-</table>
+    <tr><th>信用分數</th><td th:text="${company.creditScore}">750</td></tr>
+    <tr><th>負債比率</th><td th:text="${company.debtRatio}">0.3</td></tr>
+    <tr><th>營收</th><td th:text="${company.revenue}">1 000 000</td></tr>
+  </table>
 
-<p><a th:href="@{/}">返回首頁</a></p>
-</body>
+  <a th:href="@{/}" class="btn btn-link">返回首頁</a>
+</section>
 </html>

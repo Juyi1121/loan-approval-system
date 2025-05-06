@@ -7,5 +7,12 @@ import com.example.loan_approval_system.loan_core.entity.*;
 public interface LoanApplicationRepository
         extends JpaRepository<LoanApplication, Long> {
 
-    List<LoanApplication> findByStatus(LoanStatus status);
+     /* Reviewer – 待審 */
+     List<LoanApplication> findByStatusOrderByApplicationDateDesc(LoanStatus status);
+
+     /* Reviewer / Admin – 全部 */
+     List<LoanApplication> findAllByOrderByApplicationDateDesc();
+ 
+     /* Applicant – 自己的 */
+     List<LoanApplication> findByApplicantOrderByApplicationDateDesc(String applicant);
 }

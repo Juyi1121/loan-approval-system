@@ -1,11 +1,14 @@
-<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org"
-th:replace="~{layout}">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: layout(~{::title},~{::section})">
+
 <title>審核人員 Dashboard</title>
-<body>
-    <section th:fragment="section">
-<div>
-    <h3>Hi <b th:text="${name}"></b></h3>
-    <a th:href="@{/loan/pending}">待審核清單</a>
-</div>
+
+<section>
+  <h3>Hi <b th:text="${name}">Reviewer</b></h3>
+  <ul class="list-unstyled">
+    <li><a th:href="@{/loan/pending}">待審核清單</a></li>
+    <li><a th:href="@{/loan/all}"   >所有審核紀錄</a></li>
+  </ul>
 </section>
-</body></html>
+</html>
