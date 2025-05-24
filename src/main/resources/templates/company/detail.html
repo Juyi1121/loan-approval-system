@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: layout('公司詳情', ~{::body})">
+  <body>
+    <section class="container py-4">
+      <h2>公司詳情 (ID: <span th:text="${company.id}">0</span>)</h2>
+      <table class="table table-bordered">
+        <tr>
+          <th>欄位</th>
+          <th>值</th>
+        </tr>
+        <tr>
+          <td>公司名稱</td>
+          <td th:text="${company.companyName}">範例公司</td>
+        </tr>
+        <tr>
+          <td>信用分數</td>
+          <td th:text="${company.creditScore}">0.00</td>
+        </tr>
+        <tr>
+          <td>負債比率</td>
+          <td th:text="${company.debtRatio}">0.00</td>
+        </tr>
+        <tr>
+          <td>年營收</td>
+          <td th:text="${company.revenue}">0</td>
+        </tr>
+      </table>
+      <a th:href="@{/company/all}" class="btn btn-outline-secondary">回公司列表</a>
+      <a th:href="@{/company/add}" class="btn btn-primary">新增公司</a>
+    </section>
+  </body>
+</html>

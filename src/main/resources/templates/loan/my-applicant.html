@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: layout('我的申請列表', ~{::body})">
+  <body>
+    <section class="container py-4">
+      <h2>我的申請列表</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr><th>ID</th><th>公司</th><th>金額</th><th>期數</th><th>狀態</th><th>詳情</th></tr>
+        </thead>
+        <tbody>
+          <tr th:each="loan: ${loans}">
+            <td th:text="${loan.id}"></td>
+            <td th:text="${loan.company.companyName}"></td>
+            <td th:text="${loan.loanAmount}"></td>
+            <td th:text="${loan.term}"></td>
+            <td th:text="${loan.status}"></td>
+            <td><a th:href="@{/loan/detail/{id}(id=${loan.id})}" class="btn btn-sm btn-outline-primary">查看</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </body>
+</html>

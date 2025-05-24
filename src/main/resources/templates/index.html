@@ -1,5 +1,10 @@
-<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org">
-<head><title>首頁</title></head><body>
-<h2>歡迎來到 Loan-Approval System</h2>
-<p>請 <a th:href="@{/login}">登入</a> 以繼續。</p>
-</body></html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: layout('首頁', ~{::body})">
+  <body>
+    <section>
+      <h2>歡迎來到 Loan-Approval System</h2>
+      <p>請 <a th:href="@{/login}">登入</a> 以繼續。</p>
+    </section>
+  </body>
+</html>

@@ -1,19 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="layout :: layout(~{::title},~{::section})">
-
-<title>公司建立成功</title>
-
-<section>
-  <h2 th:text="'公司『'+${company.companyName}+'』建立成功！'">Company saved!</h2>
-
-  <table class="table table-bordered w-auto">
-    <tr><th>ID</th><td th:text="${company.id}">1</td></tr>
-    <tr><th>信用分數</th><td th:text="${company.creditScore}">750</td></tr>
-    <tr><th>負債比率</th><td th:text="${company.debtRatio}">0.3</td></tr>
-    <tr><th>營收</th><td th:text="${company.revenue}">1 000 000</td></tr>
-  </table>
-
-  <a th:href="@{/}" class="btn btn-link">返回首頁</a>
-</section>
+      th:replace="layout :: layout('公司建立成功', ~{::body})">
+  <body>
+    <section>
+      <h2 th:text="'公司『'+${company.companyName}+'』建立成功！'"></h2>
+      <p>分配到的 ID：<b th:text="${company.id}"></b></p>
+      <a th:href="@{/company/add}" class="btn btn-outline-secondary">再新增一筆</a>
+      <a th:href="@{/loan/apply}" class="btn btn-primary">去申請貸款</a>
+    </section>
+  </body>
 </html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: layout('貸款詳情', ~{::body})">
+  <body>
+    <section class="container py-4">
+      <h2>貸款詳情 (ID: <span th:text="${loan.id}"></span>)</h2>
+      <table class="table table-bordered">
+        <tr><th>公司</th><td th:text="${loan.company.companyName}"></td></tr>
+        <tr><th>金額</th><td th:text="${loan.loanAmount}"></td></tr>
+        <tr><th>期數</th><td th:text="${loan.term}"></td></tr>
+        <tr><th>申請日</th><td th:text="${loan.applicationDate}"></td></tr>
+        <tr><th>風險等級</th><td th:text="${loan.riskStatus}"></td></tr>
+        <tr><th>狀態</th><td th:text="${loan.status}"></td></tr>
+        <tr><th>TxID</th><td th:text="${loan.blockchainTxId ?: '尚未上鏈'}"></td></tr>
+      </table>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: layout('審核作業', ~{::body})">
+  <body>
+    <section class="container py-4">
+      <h2>待審核貸款</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>公司</th>
+            <th>金額</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="loan : ${loans}">
+            <td th:text="${loan.id}">1</td>
+            <td th:text="${loan.company.name}">ACME</td>
+            <td th:text="${loan.loanAmount}">100000</td>
+            <td>
+              <div class="btn-group" role="group">
+                <!-- 批准 -->
+                <form th:action="@{/loan/pending/approve/{id}(id=${loan.id})}"
+                      method="post" th:object="${loan}"
+                      style="display:inline-block; margin:0; padding:0;">
+                  <button type="submit"
+                          class="btn btn-success btn-sm">
+                    批准
+                  </button>
+                </form>
+                <!-- 駁回 -->
+                <form th:action="@{/loan/pending/reject/{id}(id=${loan.id})}"
+                      method="post"
+                      style="display:inline-block; margin:0; padding:0;">
+                  <button type="submit"
+                          class="btn btn-danger btn-sm">
+                    駁回
+                  </button>
+                </form>
+                <!-- 查看詳情 -->
+                <a th:href="@{/loan/detail/{id}(id=${loan.id})}"
+                   class="btn btn-outline-primary btn-sm">
+                  查看
+                </a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </body>
+</html>

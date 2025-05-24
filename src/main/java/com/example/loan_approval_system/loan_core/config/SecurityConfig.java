@@ -1,84 +1,117 @@
 package com.example.loan_approval_system.loan_core.config;
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.*;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-/**
- * Spring Security 設定：
- * ─ applicant / reviewer / admin 三種帳號 (密碼皆 123，僅供開發)
- * ─ URL 權限分配：
- *   • APPLICANT : /loan/apply, /loan/my
- *   • REVIEWER  : /loan/pending, /loan/all, /loan/{id}/approve|reject
- *   • ADMIN     : /loan/** (含 reviewer 路徑)
- */
 @Configuration
+@EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    /** Demo 帳號（正式環境請換成 DB / LDAP） */
     @Bean
-    public UserDetailsService users() {
-        UserDetails applicant = User.withUsername("applicant")
-                .password(passwordEncoder().encode("123"))
-                .roles("APPLICANT").build();
-        UserDetails reviewer  = User.withUsername("reviewer")
-                .password(passwordEncoder().encode("123"))
-                .roles("REVIEWER").build();
-        UserDetails admin     = User.withUsername("admin")
-                .password(passwordEncoder().encode("123"))
-                .roles("ADMIN").build();
-        return new InMemoryUserDetailsManager(applicant, reviewer, admin);
-    }
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public SecurityFilterChain filter(HttpSecurity http) throws Exception {
+    public UserDetailsService users(PasswordEncoder encoder) {
+        UserDetails applicant = User.builder()
+                .username("applicant")
+                .password(encoder.encode("123"))
+                .roles("APPLICANT")
+                .build();
 
-        http.authorizeHttpRequests(auth -> auth
-                /* 靜態資源與登入頁放行 */
-                .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll()
+        UserDetails reviewer = User.builder()
+                .username("reviewer")
+                .password(encoder.encode("123"))
+                .roles("REVIEWER")
+                .build();
 
-                /* Applicant 專用 */
-                .requestMatchers("/loan/apply", "/loan/my")
-                    .hasRole("APPLICANT")
+        UserDetails admin = User.builder()
+                .username("admin")
+                .password(encoder.encode("123"))
+                .roles("ADMIN")
+                .build();
 
-                /* Reviewer + Admin 共用 (⚠️ 先寫 hasAnyRole，再寫 Admin，順序很重要) */
-                .requestMatchers("/loan/pending", "/loan/all",
-                                 "/loan/*/approve", "/loan/*/reject")
-                    .hasAnyRole("REVIEWER", "ADMIN")
+        return new InMemoryUserDetailsManager(applicant, reviewer, admin);
+    }
 
-                /* 其餘 /loan/** 僅 Admin 可見 */
-                .requestMatchers("/loan/**").hasRole("ADMIN")
+    @Bean
+    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+        http
+            // 關閉 CSRF（示例階段）
+            .csrf(csrf -> csrf.disable())
+            // 授權設定
+            .authorizeHttpRequests(auth -> auth
+                // 靜態資源 & 公开页面
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                .requestMatchers("/", "/index", "/login", "/post-login", "/error").permitAll()
 
-                /* 其他請求必須登入 */
+                // 單筆詳情：所有登入用戶都可以查看
+                .requestMatchers(HttpMethod.GET, "/loan/detail/**")
+                .hasAnyRole("APPLICANT", "REVIEWER", "ADMIN")
+
+                /* ===== APPLICANT ===== */
+                .requestMatchers(HttpMethod.GET, "/loan/apply", "/loan/my-applicant")
+                .hasRole("APPLICANT")
+                .requestMatchers(HttpMethod.POST, "/loan/apply")
+                .hasRole("APPLICANT")
+                // JSON 申請 API
+                .requestMatchers(HttpMethod.POST, "/api/applications")
+                .hasRole("APPLICANT")
+                .requestMatchers(HttpMethod.GET, "/api/applications/**")
+                .hasAnyRole("APPLICANT", "REVIEWER", "ADMIN")
+
+                /* ===== REVIEWER ===== */
+                .requestMatchers(HttpMethod.GET, "/loan/pending")
+                .hasRole("REVIEWER")
+                .requestMatchers(HttpMethod.POST,
+                        "/loan/pending/approve/**",
+                        "/loan/pending/reject/**")
+                .hasAnyRole("REVIEWER", "ADMIN")
+
+                /* ===== ADMIN ===== */
+                .requestMatchers(HttpMethod.GET, "/loan/all-admin")
+                .hasAnyRole("ADMIN", "REVIEWER")
+                .requestMatchers(HttpMethod.POST, "/loan/all-admin/delete/**")
+                .hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/company/add", "/company/all")
+                .hasAnyRole("ADMIN", "APPLICANT", "REVIEWER")
+                .requestMatchers(HttpMethod.POST, "/company/save")
+                .hasAnyRole("ADMIN", "APPLICANT", "REVIEWER")
+
+                // 其它所有請求都要登入
                 .anyRequest().authenticated()
-        )
+            )
 
-        /* 表單登入 */
-        .formLogin(form -> form
-                .loginPage("/login").permitAll()
-                .defaultSuccessUrl("/post-login", true)   // 成功登入導向
-        )
-
-        /* 登出 */
-        .logout(lg -> lg.logoutSuccessUrl("/login?logout"))
-
-        /* 先停用 CSRF 以方便 Postman / HTML 表單測試 */
-        .csrf(csrf -> csrf.disable())
-
-        /* 也支援 HTTP Basic（測試用） */
-        .httpBasic(Customizer.withDefaults());
+            // 登入設定
+            .formLogin(login -> login
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/post-login", true)
+                .failureUrl("/login?error")
+                .permitAll()
+            )
+            // 登出設定
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout")
+                .permitAll()
+            );
 
         return http.build();
     }

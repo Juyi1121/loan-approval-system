@@ -1,78 +1,51 @@
 package com.example.loan_approval_system.loan_core.controller;
 
-import java.math.BigDecimal;
-import java.security.Principal;
+import com.example.loan_approval_system.loan_core.dto.LoanApplicationDTO;
+import com.example.loan_approval_system.loan_core.entity.LoanApplication;
+import com.example.loan_approval_system.loan_core.service.LoanApplicationService;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import com.example.loan_approval_system.loan_core.entity.LoanStatus;
-import com.example.loan_approval_system.loan_core.repository.CompanyRepository;
-import com.example.loan_approval_system.loan_core.service.LoanApplicationService;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/loan")
+@RequiredArgsConstructor
+@Validated
 public class LoanController {
 
-    private final LoanApplicationService loanService;
-     private final CompanyRepository companyRepo;   // ← 新增
+    private final LoanApplicationService loanApplicationService;
 
-    public LoanController(LoanApplicationService loanService, CompanyRepository companyRepo) {
-        this.loanService = loanService;
-        this.companyRepo = companyRepo;
-    }
-
-    /* ---------- 申請表單 ---------- */
     @GetMapping("/apply")
-    public String showApplyForm(Model m) {
-        m.addAttribute("companies", companyRepo.findAll());
-        return "applyloan";
+    public String showApplyForm(Model model, HttpServletRequest request) {
+      
+        model.addAttribute("loanApplicationDto", new LoanApplicationDTO());
+        return "loan/apply";
     }
 
     @PostMapping("/apply")
-    public String processApply(@RequestParam Long companyId,
-                               @RequestParam BigDecimal amount,
-                               @RequestParam Integer term,
-                               Principal principal) {
-
-        loanService.applyForLoan(companyId,
-                                 amount.doubleValue(),
-                                 term,
-                                 principal.getName());
-        return "redirect:/loan/my?success";
-    }
-
-    /* ---------- Reviewer ---------- */
-    @GetMapping("/pending")
-    public String pending(Model m) {
-        m.addAttribute("loans", loanService.findByStatus(LoanStatus.PENDING));
-        return "reviewLoan";
-    }
-
-    @GetMapping("/all")
-    public String all(Model m) {
-        m.addAttribute("loans", loanService.findAll());
-        m.addAttribute("pageTitle", "所有審核紀錄");   //
-        return "reviewLoan";
-    }
-
-    @PostMapping("/{id}/approve")
-    public String approve(@PathVariable Long id) {
-        loanService.approve(id);
-        return "redirect:/loan/pending";
-    }
-
-    @PostMapping("/{id}/reject")
-    public String reject(@PathVariable Long id) {
-        loanService.reject(id);
-        return "redirect:/loan/pending";
-    }
-
-    /* ---------- Applicant ---------- */
-    @GetMapping("/my")
-    public String myLoans(Model m, Principal principal) {
-        m.addAttribute("loans", loanService.findByApplicant(principal.getName()));
-        return "myLoan";
+    public String apply(@Validated @ModelAttribute("loanApplicationDto") LoanApplicationDTO dto,
+                        BindingResult result,
+                        Model model) {
+        if (result.hasErrors()) {
+            return "loan/apply";
+        }
+        LoanApplication saved = loanApplicationService.applyForLoan(dto.getCompanyId(),
+                                                                   dto.getLoanAmount(),
+                                                                   dto.getTerm(),
+                                                                   dto.getApplicant());
+        return "redirect:/loan/detail/" + saved.getId();
     }
 }
