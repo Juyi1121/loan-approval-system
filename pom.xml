@@ -141,13 +141,13 @@
             <groupId>nz.net.ultraq.thymeleaf</groupId>
             <artifactId>thymeleaf-layout-dialect</artifactId>
             <version>3.2.1</version>
-          </dependency>
-          <dependency>
+        </dependency>
+        <dependency>
             <groupId>org.web3j</groupId>
             <artifactId>core</artifactId>
             <version>5.0.0</version>
         </dependency>
-          
+
     </dependencies>
 
     <build>

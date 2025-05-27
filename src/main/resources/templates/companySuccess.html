@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="layout :: layout('公司建立成功', ~{::body})">
-  <body>
-    <section>
-      <h2 th:text="'公司『'+${company.companyName}+'』建立成功！'"></h2>
-      <p>分配到的 ID：<b th:text="${company.id}"></b></p>
-      <a th:href="@{/company/add}" class="btn btn-outline-secondary">再新增一筆</a>
-      <a th:href="@{/loan/apply}" class="btn btn-primary">去申請貸款</a>
-    </section>
-  </body>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: layout('公司建立成功', ~{::body})">
+
+<body>
+  <section>
+    <h2 th:text="'公司『'+${company.companyName}+'』建立成功！'"></h2>
+    <p>分配到的 ID：<b th:text="${company.id}"></b></p>
+    <a th:href="@{/company/add}" class="btn btn-outline-secondary">再新增一筆</a>
+    <a th:href="@{/loan/apply}" class="btn btn-primary">去申請貸款</a>
+  </section>
+</body>
+
 </html>

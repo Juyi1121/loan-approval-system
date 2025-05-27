@@ -20,6 +20,8 @@ import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import jakarta.servlet.http.HttpServletRequest;
 
+/*把申請表單獨立出來*/
+
 @Controller
 @RequestMapping("/loan")
 @RequiredArgsConstructor
@@ -30,22 +32,22 @@ public class LoanController {
 
     @GetMapping("/apply")
     public String showApplyForm(Model model, HttpServletRequest request) {
-      
+
         model.addAttribute("loanApplicationDto", new LoanApplicationDTO());
         return "loan/apply";
     }
 
     @PostMapping("/apply")
     public String apply(@Validated @ModelAttribute("loanApplicationDto") LoanApplicationDTO dto,
-                        BindingResult result,
-                        Model model) {
+            BindingResult result,
+            Model model) {
         if (result.hasErrors()) {
             return "loan/apply";
         }
         LoanApplication saved = loanApplicationService.applyForLoan(dto.getCompanyId(),
-                                                                   dto.getLoanAmount(),
-                                                                   dto.getTerm(),
-                                                                   dto.getApplicant());
+                dto.getLoanAmount(),
+                dto.getTerm(),
+                dto.getApplicant());
         return "redirect:/loan/detail/" + saved.getId();
     }
 }

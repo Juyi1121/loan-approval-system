@@ -8,13 +8,13 @@ import org.springframework.web.servlet.config.annotation.*;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Autowired LoginInterceptor interceptor;
+    @Autowired
+    LoginInterceptor interceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(interceptor)
-                .addPathPatterns("/**")         // 全站
+                .addPathPatterns("/**") // 全站
                 .excludePathPatterns("/css/**", "/js/**", "/", "/login");
     }
 }
-

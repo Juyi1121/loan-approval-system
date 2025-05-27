@@ -19,49 +19,49 @@ public class ViewController {
         this.loanService = loanService;
     }
 
-    /** 我的申請列表 */
+    // 我的申請列表
     @GetMapping("/loan/my-applicant")
     public String myApplicant(Model m) {
         m.addAttribute("loans", loanService.listByCurrentUser());
         return "loan/my-applicant";
     }
 
-    /** 待審核列表 (Reviewer) */
+    // 待審核列表 (Reviewer)
     @GetMapping("/loan/pending")
     public String pendingLoans(Model m) {
         m.addAttribute("loans", loanService.listPending());
         return "loan/pending";
     }
 
-    /** 核准 */
+    // 核准
     @PostMapping("/loan/pending/approve/{id}")
     public String approveLoan(@PathVariable Long id) {
         loanService.approve(id);
         return "redirect:/loan/pending";
     }
 
-    /** 拒絕 */
+    // 拒絕
     @PostMapping("/loan/pending/reject/{id}")
     public String rejectLoan(@PathVariable Long id) {
         loanService.reject(id);
         return "redirect:/loan/pending";
     }
 
-    /** 所有申請 (Admin) */
+    // 所有申請 (Admin & Reviewer 先共用 之後再獨立)
     @GetMapping("/loan/all-admin")
     public String allAdminLoans(Model m) {
         m.addAttribute("loans", loanService.listAll());
         return "loan/all-admin";
     }
 
-    /** 詳情 */
+    // 詳情
     @GetMapping("/loan/detail/{id}")
     public String detail(@PathVariable Long id, Model m) {
         m.addAttribute("loan", loanService.get(id));
         return "loan/detail";
     }
 
-    /** 管理員刪除 */
+    // 刪除權限
     @GetMapping("/loan/all-admin/delete/{id}")
     public String deleteAdminLoan(@PathVariable Long id) {
         loanService.delete(id);

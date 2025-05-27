@@ -1,4 +1,3 @@
-// src/main/java/com/example/loan_approval_system/LoanApprovalSystemApplication.java
 package com.example.loan_approval_system;
 
 import com.example.loan_approval_system.loan_core.entity.Company;
@@ -40,8 +39,7 @@ public class LoanApprovalSystemApplication implements CommandLineRunner {
 
         // 自動送出測試申請
         LoanApplication result = loanService.applyForLoan(
-            saved.getId(), 500_000.0, 12, "demo@applicant.com"
-        );
+                saved.getId(), 500_000.0, 12, "demo@applicant.com");
         System.out.println("自動送出測試申請，狀態：" + result.getStatus());
     }
 }

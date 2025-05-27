@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="layout :: layout('系統管理 Dashboard', ~{::body})">
-  <body>
-    <section>
-      <h3>Hi <b th:text="${name}"></b></h3>
-      <ul>
-        <li><a th:href="@{/company/add}">新增公司</a></li>
-        <li><a th:href="@{/loan/all-admin}">所有審核紀錄</a></li>
-        <li><a th:href="@{/swagger-ui.html}">Swagger 文件</a></li>
-      </ul>
-    </section>
-  </body>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: layout('系統管理 Dashboard', ~{::body})">
+
+<body>
+  <section>
+    <h3>Hi <b th:text="${name}"></b></h3>
+    <ul>
+      <li><a th:href="@{/company/add}">新增公司</a></li>
+      <li><a th:href="@{/loan/all-admin}">所有審核紀錄</a></li>
+      <li><a th:href="@{/swagger-ui.html}">Swagger 文件</a></li>
+    </ul>
+  </section>
+</body>
+
 </html>

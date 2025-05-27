@@ -1,36 +1,35 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="layout :: layout('公司列表', ~{::body})">
-  <body>
-    <section class="container py-4">
-      <h2>所有公司</h2>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>公司名稱</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr th:each="c : ${companies}">
-            <td th:text="${c.id}">1</td>
-            <td th:text="${c.companyName}">範例公司</td>
-            <td>
-              <a th:href="@{/company/{id}(id=${c.id})}"
-                 class="btn btn-sm btn-outline-primary">
-                詳情
-              </a>
-              <a th:href="@{/company/delete/{id}(id=${c.id})}"
-                 class="btn btn-sm btn-outline-danger"
-                 th:onclick="|return confirm('確定要刪除公司 ID=${c.id}?');|">
-                刪除
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <a th:href="@{/company/add}" class="btn btn-primary">新增公司</a>
-    </section>
-  </body>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: layout('公司列表', ~{::body})">
+
+<body>
+  <section class="container py-4">
+    <h2>所有公司</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>公司名稱</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="c : ${companies}">
+          <td th:text="${c.id}">1</td>
+          <td th:text="${c.companyName}">範例公司</td>
+          <td>
+            <a th:href="@{/company/{id}(id=${c.id})}" class="btn btn-sm btn-outline-primary">
+              詳情
+            </a>
+            <a th:href="@{/company/delete/{id}(id=${c.id})}" class="btn btn-sm btn-outline-danger"
+              th:onclick="|return confirm('確定要刪除公司 ID=${c.id}?');|">
+              刪除
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <a th:href="@{/company/add}" class="btn btn-primary">新增公司</a>
+  </section>
+</body>
+
 </html>

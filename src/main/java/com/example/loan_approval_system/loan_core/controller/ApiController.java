@@ -1,6 +1,6 @@
 package com.example.loan_approval_system.loan_core.controller;
 
-import com.example.loan_approval_system.loan_core.dto.LoanRequestDTO;
+import com.example.loan_approval_system.loan_core.dto.LoanApplicationDTO;
 import com.example.loan_approval_system.loan_core.entity.LoanApplication;
 import com.example.loan_approval_system.loan_core.service.LoanApplicationService;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +22,9 @@ public class ApiController {
         this.loanService = loanService;
     }
 
-    /** 申請貸款（JSON） */
+    // 申請貸款（JSON）
     @PostMapping("/applications")
-    public ResponseEntity<Map<String, Object>> apply(@RequestBody LoanRequestDTO dto) {
+    public ResponseEntity<Map<String, Object>> apply(@RequestBody LoanApplicationDTO dto) {
         LoanApplication app = loanService.applyForLoan(
                 dto.getCompanyId(),
                 dto.getLoanAmount(),
@@ -34,7 +34,7 @@ public class ApiController {
         return ResponseEntity.ok(Map.of("id", app.getId()));
     }
 
-    /** 查詢單筆申請（JSON） */
+    // 查詢單筆申請（JSON）
     @GetMapping("/applications/{id}")
     public ResponseEntity<LoanApplication> get(@PathVariable Long id) {
         LoanApplication app = loanService.get(id);

@@ -1,4 +1,3 @@
-// src/main/java/com/example/loan_approval_system/loan_core/service/impl/LoanApplicationServiceImpl.java
 package com.example.loan_approval_system.loan_core.service.impl;
 
 import com.example.loan_approval_system.loan_core.entity.LoanApplication;
@@ -29,15 +28,15 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
     private final BlockchainService bcService;
 
     public LoanApplicationServiceImpl(LoanApplicationRepository repo,
-                                      CompanyRepository companyRepo,
-                                      LoanRiskRepository riskRepo,
-                                      RiskAssessmentService riskService,
-                                      BlockchainService bcService) {
-        this.repo         = repo;
-        this.companyRepo  = companyRepo;
-        this.riskRepo     = riskRepo;
-        this.riskService  = riskService;
-        this.bcService    = bcService;
+            CompanyRepository companyRepo,
+            LoanRiskRepository riskRepo,
+            RiskAssessmentService riskService,
+            BlockchainService bcService) {
+        this.repo = repo;
+        this.companyRepo = companyRepo;
+        this.riskRepo = riskRepo;
+        this.riskService = riskService;
+        this.bcService = bcService;
     }
 
     @Override
@@ -55,8 +54,8 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
     @Override
     public List<LoanApplication> listPending() {
         return repo.findAll().stream()
-                   .filter(l -> l.getStatus() == LoanStatus.PENDING)
-                   .collect(Collectors.toList());
+                .filter(l -> l.getStatus() == LoanStatus.PENDING)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -66,9 +65,9 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
 
     @Override
     public LoanApplication applyForLoan(Long companyId,
-                                       Double amount,
-                                       Integer term,
-                                       String applicant) {
+            Double amount,
+            Integer term,
+            String applicant) {
         var co = companyRepo.findById(companyId).orElseThrow();
         LoanApplication app = new LoanApplication();
         app.setCompany(co);
@@ -84,12 +83,11 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
         String classification = score > 600 ? "Low Risk" : "High Risk";
 
         LoanRisk risk = new LoanRisk(
-            savedApp,
-            score,
-            score,
-            classification,
-            classification
-        );
+                savedApp,
+                score,
+                score,
+                classification,
+                classification);
         riskRepo.save(risk);
 
         savedApp.setRiskScore(score);
@@ -110,7 +108,7 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
     @Override
     public void approve(Long id) {
         LoanApplication app = repo.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("找不到申請：" + id));
+                .orElseThrow(() -> new IllegalArgumentException("找不到申請：" + id));
         app.setStatus(LoanStatus.APPROVED);
         app.setDecisionDate(LocalDateTime.now());
         repo.save(app);
@@ -119,7 +117,7 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
     @Override
     public void reject(Long id) {
         LoanApplication app = repo.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("找不到申請：" + id));
+                .orElseThrow(() -> new IllegalArgumentException("找不到申請：" + id));
         app.setStatus(LoanStatus.REJECTED);
         app.setDecisionDate(LocalDateTime.now());
         repo.save(app);

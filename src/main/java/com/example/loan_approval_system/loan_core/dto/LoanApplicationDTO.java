@@ -18,8 +18,6 @@ public class LoanApplicationDTO {
     @NotBlank(message = "申請人不可為空")
     private String applicant;
 
-    // 下面是標準 getter/setter
-
     public Long getCompanyId() {
         return companyId;
     }

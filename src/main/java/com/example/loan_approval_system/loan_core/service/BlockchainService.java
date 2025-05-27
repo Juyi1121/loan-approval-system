@@ -9,6 +9,7 @@ public interface BlockchainService {
 
     /**
      * 將貸款申請資訊上鏈存證。
+     * 
      * @param application 已持久化之 LoanApplication
      */
     void recordLoanApplication(LoanApplication application);

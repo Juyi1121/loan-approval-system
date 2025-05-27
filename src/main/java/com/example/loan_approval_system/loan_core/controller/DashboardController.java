@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * 根據登入者角色轉向不同 Dashboard：
- *   ADMIN → /admin
- *   REVIEWER → /reviewer
- *   APPLICANT → /applicant
+ * ADMIN → /admin
+ * REVIEWER → /reviewer
+ * APPLICANT → /applicant
  */
 @Controller
 public class DashboardController {
 
-    /** 登入成功後統一跳轉路由 */
+    // 登入成功後統一跳轉路由
     @GetMapping("/post-login")
     public String postLogin(Authentication auth) {
         if (auth.getAuthorities().stream()
@@ -30,7 +30,7 @@ public class DashboardController {
         return "redirect:/applicant";
     }
 
-    @GetMapping({"/", "/index"})
+    @GetMapping({ "/", "/index" })
     public String index() {
         return "index";
     }
@@ -40,21 +40,21 @@ public class DashboardController {
         return "login";
     }
 
-    /** 系統管理 Dashboard */
+    // 系統管理 Dashboard
     @GetMapping("/admin")
     public String admin(Model m) {
         m.addAttribute("name", "系統管理員");
         return "admin/dashboard";
     }
 
-    /** 審核人員 Dashboard */
+    // 審核人員 Dashboard
     @GetMapping("/reviewer")
     public String reviewer(Model m) {
         m.addAttribute("name", "審核人員");
         return "reviewer/dashboard";
     }
 
-    /** 申請人員 Dashboard */
+    // 申請人員 Dashboard
     @GetMapping("/applicant")
     public String applicant(Model m) {
         m.addAttribute("name", "申請人員");

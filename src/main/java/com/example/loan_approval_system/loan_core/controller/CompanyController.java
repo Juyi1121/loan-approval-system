@@ -19,14 +19,14 @@ public class CompanyController {
 
     private final CompanyService service;
 
-    /** 顯示「新增公司」表單 */
+    // 顯示「新增公司」表單
     @GetMapping("/add")
     public String addForm(Model m) {
         m.addAttribute("company", new Company());
         return "addCompany";
     }
 
-    /** 處理「新增公司」提交 */
+    // 處理「新增公司」提交
     @PostMapping("/save")
     public String save(@ModelAttribute Company company, Model m) {
         Company saved = service.save(company);
@@ -34,7 +34,7 @@ public class CompanyController {
         return "companySuccess";
     }
 
-    /** 列出所有公司 */
+    // 列出所有公司
     @GetMapping("/all")
     public String listAll(Model m) {
         List<Company> companies = service.listAll();
@@ -42,7 +42,7 @@ public class CompanyController {
         return "company/list";
     }
 
-    /** 顯示單一公司詳細 */
+    // 顯示單一公司詳細
     @GetMapping("/{id}")
     public String detail(@PathVariable Long id, Model m) {
         Company company = service.get(id);
@@ -50,7 +50,7 @@ public class CompanyController {
         return "company/detail";
     }
 
-    /** 刪除公司並重導向列表 */
+    // 刪除公司並重導向列表
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         service.delete(id);

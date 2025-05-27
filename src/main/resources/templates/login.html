@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="layout :: layout('登入', ~{::body})">
-  <body>
-    <section>
-      <h2 class="mb-4">請登入</h2>
-      <form th:action="@{/login}" method="post" class="row g-3">
-        <div class="col-md-6">
-          <label for="username" class="form-label">帳號</label>
-          <input id="username" name="username" class="form-control" required/>
-        </div>
-        <div class="col-md-6">
-          <label for="password" class="form-label">密碼</label>
-          <input type="password" id="password" name="password" class="form-control" required/>
-        </div>
-        <div class="col-12">
-          <button type="submit" class="btn btn-primary">登入</button>
-        </div>
-        <div class="col-12">
-          <p th:if="${param.error}" class="text-danger">帳密錯誤！</p>
-          <p th:if="${param.logout}" class="text-success">已登出。</p>
-        </div>
-      </form>
-    </section>
-  </body>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout :: layout('登入', ~{::body})">
+
+<body>
+  <section>
+    <h2 class="mb-4">請登入</h2>
+    <form th:action="@{/login}" method="post" class="row g-3">
+      <div class="col-md-6">
+        <label for="username" class="form-label">帳號</label>
+        <input id="username" name="username" class="form-control" required />
+      </div>
+      <div class="col-md-6">
+        <label for="password" class="form-label">密碼</label>
+        <input type="password" id="password" name="password" class="form-control" required />
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">登入</button>
+      </div>
+      <div class="col-12">
+        <p th:if="${param.error}" class="text-danger">帳密錯誤！</p>
+        <p th:if="${param.logout}" class="text-success">已登出。</p>
+      </div>
+    </form>
+  </section>
+</body>
+
 </html>

@@ -17,17 +17,17 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** 公司名稱，資料庫欄位 company_name */
+    // 公司名稱，資料庫欄位 company_name
     @Column(name = "company_name", nullable = false, unique = true)
     private String companyName;
 
-    /** 年收入 */
+    // 年收入
     private double revenue;
 
-    /** 負債比率 */
+    // 負債比率
     private double debtRatio;
 
-    /** 信用評分 */
+    // 信用評分
     private double creditScore;
 
     /**
